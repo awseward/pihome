@@ -48,11 +48,13 @@ function launch_neo {
 }
 
 function finish {
+  clear
   exit 0
 }
 
 function turn_off {
   whiptail --infobox "The system will shut down now..." 10 60 1
+  sleep 3; clear
   sudo shutdown -h now
   finish
 }
@@ -75,7 +77,11 @@ while true; do
     else
       launch_neo $CHOICE || launch $CHOICE || whiptail --msgbox "There was an error launching ${HUMANTITLES[$CHOICE]}" 20 60 1
     fi
-  else
+  elif [ $TERM != "linux" ]; then
+    clear
     exit 1
+  else
+    whiptail --infobox "I'm afraid I can't let you do that, Dave..." --title "HAL9000" 20 60 1
+    sleep 3
   fi
 done
