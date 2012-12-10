@@ -53,7 +53,7 @@ function finish {
 }
 
 function turn_off {
-  whiptail --infobox "The system will shut down now...\n\n Please don't forget to flip the power switch once it finishes shutting down, like back on 90s computers..." 10 60 1
+  whiptail --infobox "The system will shut down now...\n\nPlease don't forget to flip the power switch once it finishes shutting down, like back on 90s computers..." 10 60 1
   sleep 3; clear
   sudo shutdown -h now
   finish
@@ -75,13 +75,14 @@ while true; do
     if [ $CHOICE -eq 999 ]; then
       turn_off
     else
-      launch_neo $CHOICE || launch $CHOICE || whiptail --msgbox "There was an error launching ${HUMANTITLES[$CHOICE]}" 20 60 1
+      # this needs to be re-worked...
+      launch_neo $CHOICE || launch $CHOICE || whiptail --msgbox "There was an error launching ${HUMANTITLES[$CHOICE]}.\nLooks like you broke it..." 20 60 1
     fi
   elif [ $TERM != "linux" ]; then
     clear
     exit 1
   else
-    whiptail --infobox "I'm afraid I can't let you do that, Dave..." --title "HAL9000" 20 60 1
+    whiptail --infobox "I'm afraid I can't let you do that, Dave...\n\nQuitting to the CLI without a keyboard may not be the best idea." --title "HAL9000" 20 60 1
     sleep 3
   fi
 done
