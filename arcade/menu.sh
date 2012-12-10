@@ -53,7 +53,7 @@ function finish {
 }
 
 function turn_off {
-  whiptail --infobox "The system will shut down now..." 10 60 1
+  whiptail --infobox "The system will shut down now...\n\n Please don't forget to flip the power switch once it finishes shutting down, like back on 90s computers..." 10 60 1
   sleep 3; clear
   sudo shutdown -h now
   finish
