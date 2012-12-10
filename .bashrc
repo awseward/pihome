@@ -103,7 +103,6 @@ if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
 fi
 
 # if not puttying in, start the arcade nonsense...
-BOOBS="linux"
 if [ $TERM == "linux" ]; then
     advmame puckman
     /home/pi/arcade/menu.sh
