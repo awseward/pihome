@@ -1,1 +1,20 @@
+.Xauthority
 *.nv
+.advance/hi
+.bash_history
+.bash_logout
+.festival_history
+.old_menu_stuff
+.profile
+.pulse-cookie
+.pulse
+.python_games
+.ssh
+Desktop
+Downloads
+
+
+
+# temporary files
+*~
+*#
