@@ -13,6 +13,7 @@ biospath /home/pi/.gngeo/rom/
 
 # Where gngeo can find its datafile (font/skin/etc.)
 #datafile /usr/games/lib/gngeo/gngeo_data.zip
+datafile /home/pi/.gngeo/gngeo_data.zip
 
 # Play in fullscreen?
 fullscreen false
