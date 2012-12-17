@@ -65,7 +65,7 @@ function turn_off {
 #
 ######
 while true; do
-  CHOICE=$(whiptail --menu "\n Select a Game" 40 80 30 --cancel-button Info --ok-button Select \
+  CHOICE=$(whiptail --menu "\n Select a Game" 30 80 20 --cancel-button Info --ok-button Select \
     "${CHOICES[@]}" \
     3>&1 1>&2 2>&3)
   RET=$?
