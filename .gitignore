@@ -12,9 +12,5 @@
 .ssh
 Desktop
 Downloads
-
-
-
-# temporary files
 *~
-*#
+/home/pi/.gngeo/memcard
