@@ -9,6 +9,9 @@
 #
 ######
 
+#VOLPCT=100
+
+# if time to update...
 if [ $1 -a $1 == "update" ]; then
   echo UPDATING GAMES...
   sleep 0.2
@@ -64,11 +67,44 @@ CHOICES+=("999" "System shut down") # Add a shutdown option
 ######
 
 function launch {
+  music_fadeout &
   if [ $( ls /home/pi/.advance/rom | grep -m 1 "${ALLGAMESARRAY[$1]}") ]; then
     advmame ${ALLGAMESARRAY[$1]}
   elif [ $( ls /home/pi/.gngeo/rom | grep -m 1 "${ALLGAMESARRAY[$1]}") ]; then
     gngeo ${ALLGAMESARRAY[$1]}
   fi
+}
+
+# using amixer to fade in and out causes pretty frequent segfaults...
+# hopefully a better alternative comes up
+
+function music_fadein {
+#  VOLPCT=50
+#  amixer -c 0 -q set PCM $VOLPCT%
+  mpg123 -q /home/pi/arcade/waiting_music/8-bit.mp3 &
+#  while [ $VOLPCT -lt 100 ]
+#  do
+#    if [ -z $STOPFADINGIN ]; then
+#      amixer -c 0 -q set PCM $VOLPCT%
+#      VOLPCT=`expr $VOLPCT + 5`
+#      sleep 0.5
+#    fi
+#  done
+}
+
+function music_fadeout {
+#  STOPFADINGIN=t
+#  while [ $VOLPCT -gt 50 ]
+#  do
+#    VOLPCT=`expr $VOLPCT - 8`
+#    amixer -c 0 -q set PCM $VOLPCT%
+#    sleep 0.2
+#    if [ $VOLPCT -lt 55 ]; then
+#      kill $(pidof mpg123)
+#    fi
+#  done
+#  amixer -c 0 -q set PCM 100%
+  kill $(pidof mpg123)
 }
 
 function error {
@@ -80,6 +116,7 @@ function exit_warning {
 }
 
 function finish {
+  music_fadeout
   clear
   exit 0
 }
@@ -97,6 +134,10 @@ function turn_off {
 #
 ######
 
+mpg123 -q /home/pi/arcade/waiting_music/thx.mp3 &
+/home/pi/arcade/title.sh
+sleep 5
+
 while true; do
   CHOICE=$(whiptail --menu "\n Select a Game" 30 80 20 --cancel-button Info --ok-button Select \
     "${CHOICES[@]}" \
@@ -111,6 +152,7 @@ while true; do
       launch $CHOICE || error $CHOICE
     fi
   elif [ $TERM != "linux" ]; then
+    music_fadeout
     clear
     exit 1
   else
