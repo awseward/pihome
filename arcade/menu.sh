@@ -81,7 +81,7 @@ function launch {
 function music_fadein {
 #  VOLPCT=50
 #  amixer -c 0 -q set PCM $VOLPCT%
-  mpg123 -q /home/pi/arcade/waiting_music/8-bit.mp3 &
+  mpg123 -q -z $(ls /home/pi/arcade/menu_music/) &
 #  while [ $VOLPCT -lt 100 ]
 #  do
 #    if [ -z $STOPFADINGIN ]; then
@@ -135,7 +135,7 @@ function turn_off {
 #
 ######
 
-mpg123 -q /home/pi/arcade/waiting_music/thx.mp3 &
+mpg123 -q /home/pi/arcade/audio/thx.mp3 &
 cat /home/pi/arcade/MAME.ascii | /home/pi/arcade/title.sh
 sleep 5
 music_fadein
