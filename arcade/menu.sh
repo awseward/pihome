@@ -112,7 +112,8 @@ function error {
 }
 
 function exit_warning {
-  whiptail --infobox "I'm afraid I can't let you do that, Dave...\n\nQuitting to the CLI without a keyboard may not be the best idea." --title "HAL9000" 20 60 1  
+  whiptail --infobox "I'm afraid I can't let you do that, Dave...\n\nQuitting to the CLI without a keyboard may not be the best idea." --title "HAL9000" 20 60 1
+  sleep 3
 }
 
 function finish {
@@ -135,16 +136,21 @@ function turn_off {
 ######
 
 mpg123 -q /home/pi/arcade/waiting_music/thx.mp3 &
-/home/pi/arcade/title.sh
+cat /home/pi/arcade/MAME.ascii | /home/pi/arcade/title.sh
 sleep 5
+music_fadein
 
 while true; do
-  CHOICE=$(whiptail --menu "\n Select a Game" 30 80 20 --cancel-button Info --ok-button Select \
+  CHOICE=$(whiptail --menu "\n Select a Game" --title "Multiple Arcade Machine Emulator" 30 80 20 --cancel-button Exit --ok-button Select \
     "${CHOICES[@]}" \
     3>&1 1>&2 2>&3)
   RET=$?
   if [ $RET -eq 1 ]; then
-    finish
+    if [$TERM != "linux" ]; then
+      finish
+    else
+      exit_warning
+    fi
   elif [ $RET -eq 0 ]; then
     if [ $CHOICE -eq 999 ]; then
       turn_off
@@ -152,11 +158,8 @@ while true; do
       launch $CHOICE || error $CHOICE
     fi
   elif [ $TERM != "linux" ]; then
-    music_fadeout
-    clear
-    exit 1
+    finish
   else
     exit_warning
-    sleep 3
   fi
 done
