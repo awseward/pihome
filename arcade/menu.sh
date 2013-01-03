@@ -67,7 +67,7 @@ CHOICES+=("999" "System shut down") # Add a shutdown option
 ######
 
 function launch {
-  music_fadeout &
+  music_off &
   if [ $( ls /home/pi/.advance/rom | grep -m 1 "${ALLGAMESARRAY[$1]}") ]; then
     advmame ${ALLGAMESARRAY[$1]}
   elif [ $( ls /home/pi/.gngeo/rom | grep -m 1 "${ALLGAMESARRAY[$1]}") ]; then
@@ -79,10 +79,13 @@ function launch {
 # hopefully a better alternative comes up
 
 function music_start {
+  if [ "$(pidof mpg123)" ]; then
+    kill $(pidof mpg123)
+  fi
   mpg123 -q -z $(ls -d /home/pi/arcade/audio/menu_music/*) &
 }
 
-function music_fadeout {
+function music_off {
 #  STOPFADINGIN=t
 #  while [ $VOLPCT -gt 50 ]
 #  do
@@ -94,7 +97,9 @@ function music_fadeout {
 #    fi
 #  done
 #  amixer -c 0 -q set PCM 100%
-  kill $(pidof mpg123)
+  if [ "$(pidof mpg123)" ]; then
+    kill $(pidof mpg123)
+  fi
 }
 
 function error {
@@ -107,7 +112,7 @@ function exit_warning {
 }
 
 function finish {
-  music_fadeout
+  music_off
   clear
   exit 0
 }
@@ -128,9 +133,9 @@ function turn_off {
 mpg123 -q /home/pi/arcade/audio/thx.mp3 &
 cat /home/pi/arcade/MAME.ascii | /home/pi/arcade/title.sh
 sleep 5
-music_start
 
 while true; do
+  music_start
   CHOICE=$(whiptail --menu "\n Select a Game" --title "Multiple Arcade Machine Emulator" 30 80 20 --cancel-button Exit --ok-button Select \
     "${CHOICES[@]}" \
     3>&1 1>&2 2>&3)
