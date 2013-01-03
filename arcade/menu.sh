@@ -67,7 +67,7 @@ CHOICES+=("999" "System shut down") # Add a shutdown option
 ######
 
 function launch {
-  music_off &
+  #music_off &
   if [ $( ls /home/pi/.advance/rom | grep -m 1 "${ALLGAMESARRAY[$1]}") ]; then
     advmame ${ALLGAMESARRAY[$1]}
   elif [ $( ls /home/pi/.gngeo/rom | grep -m 1 "${ALLGAMESARRAY[$1]}") ]; then
@@ -78,11 +78,11 @@ function launch {
 # using amixer to fade in and out causes pretty frequent segfaults...
 # hopefully a better alternative comes up
 
-function music_start {
-  mpg123 -q -z $(ls -d /home/pi/arcade/audio/menu_music/*) &
-}
+#function music_start {
+#  mpg123 -q -z $(ls -d /home/pi/arcade/audio/menu_music/*) &
+#}
 
-function music_off {
+#function music_off {
 #  STOPFADINGIN=t
 #  while [ $VOLPCT -gt 50 ]
 #  do
@@ -94,10 +94,10 @@ function music_off {
 #    fi
 #  done
 #  amixer -c 0 -q set PCM 100%
-  if [ "$(pidof mpg123)" ]; then
-    kill $(pidof mpg123)
-  fi
-}
+#  if [ "$(pidof mpg123)" ]; then
+#    kill $(pidof mpg123)
+#  fi
+#}
 
 function error {
   whiptail --msgbox "There was an error launching ${HUMANTITLES[$1]}.\nLooks like you broke it..." 20 60 1
@@ -109,7 +109,7 @@ function exit_warning {
 }
 
 function finish {
-  music_off
+#  music_off
   clear
   exit 0
 }
@@ -133,9 +133,9 @@ sleep 5
 kill $(pidof mpg123)
 
 while true; do
-  if [ -z "$(pidof mpg123)" ]; then
-    music_start
-  fi
+  #if [ -z "$(pidof mpg123)" ]; then
+  #  music_start
+  #fi
   CHOICE=$(whiptail --menu "\n Select a Game" --title "Multiple Arcade Machine Emulator" 30 80 20 --cancel-button Exit --ok-button Select \
     "${CHOICES[@]}" \
     3>&1 1>&2 2>&3)
