@@ -105,5 +105,6 @@ fi
 # if not puttying in, start the arcade nonsense...
 if [ $TERM == "linux" ]; then
 #    /home/pi/arcade/menu.sh
+    ipacutil -c /home/pi/arcade/correct_keys
     arcademenu
 fi
