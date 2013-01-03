@@ -127,6 +127,7 @@ function turn_off {
 #
 ######
 
+sudo ipacutil -c /home/pi/arcade/correct_keys
 mpg123 -q /home/pi/arcade/audio/thx.mp3 &
 cat /home/pi/arcade/MAME.ascii | /home/pi/arcade/title.sh
 sleep 5
