@@ -79,9 +79,6 @@ function launch {
 # hopefully a better alternative comes up
 
 function music_start {
-  if [ "$(pidof mpg123)" ]; then
-    kill $(pidof mpg123)
-  fi
   mpg123 -q -z $(ls -d /home/pi/arcade/audio/menu_music/*) &
 }
 
@@ -133,9 +130,12 @@ function turn_off {
 mpg123 -q /home/pi/arcade/audio/thx.mp3 &
 cat /home/pi/arcade/MAME.ascii | /home/pi/arcade/title.sh
 sleep 5
+kill $(pidof mpg123)
 
 while true; do
-  music_start
+  if [ -z "$(pidof mpg123)" ]; then
+    music_start
+  fi
   CHOICE=$(whiptail --menu "\n Select a Game" --title "Multiple Arcade Machine Emulator" 30 80 20 --cancel-button Exit --ok-button Select \
     "${CHOICES[@]}" \
     3>&1 1>&2 2>&3)
